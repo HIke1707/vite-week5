@@ -15,6 +15,7 @@ const products = ref([]);
 const selectedProduct = ref({});
 
 const productModal = ref(null);
+const isLoading = ref(false);
 
 // 取購物車
 const getCart = () => {
@@ -22,13 +23,15 @@ const getCart = () => {
 };
 
 const addToCart = (id, qty = 1) => {
+  isLoading.value = true;
       const url = `${apiUrl}/api/${apiPath}/cart`;
       const cartData = {
         product_id: id,
         qty,
       };
   axios.post(url, { data: cartData }).then((response) => {
-        alert('商品加入購物車成功');
+    alert('商品加入購物車成功');
+    isLoading.value = false;
         getCart();
       }).catch((err) => {
         alert(err.response.data.message);
@@ -50,6 +53,7 @@ onMounted(async() => {
 </script>
 
 <template>
+    <VueLoading :active="isLoading" :is-full-page="true"></VueLoading>
     <table class="table align-middle">
         <thead>
             <tr>

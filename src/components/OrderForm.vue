@@ -2,7 +2,7 @@
 import { ref, inject } from 'vue';
 const apiUrl = import.meta.env.VITE_API_URL;
 const apiPath = import.meta.env.VITE_API_PATH;
-const axios = inject('axios') 
+const axios = inject('axios');
 
 // 表單
 const form = ref({
@@ -17,7 +17,7 @@ const form = ref({
 
 const formRef = ref(null);
 
-const createOrder = () => {
+const createOrder = () => {    
     const url = `${apiUrl}/api/${apiPath}/order`;
     const order = form.value;
     axios
