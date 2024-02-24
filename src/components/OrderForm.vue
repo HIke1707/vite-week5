@@ -1,8 +1,10 @@
 <script setup>
-import { ref, inject } from 'vue';
+import { ref, inject, computed } from 'vue';
 const apiUrl = import.meta.env.VITE_API_URL;
 const apiPath = import.meta.env.VITE_API_PATH;
 const axios = inject('axios');
+import { useCartStore } from '../stores/cartStore'
+const cartStore = useCartStore() 
 
 // 表單
 const form = ref({
@@ -17,12 +19,24 @@ const form = ref({
 
 const formRef = ref(null);
 
-const createOrder = () => {    
+// 通過 store 實例訪問 cart 數據
+const cart = computed({
+  get() {
+    return cartStore.cart
+  }
+})
+
+const createOrder = () => { 
+    if (cart.value.carts.length == 0) {
+        alert('購物車內沒有商品');
+        return;
+    }
     const url = `${apiUrl}/api/${apiPath}/order`;
     const order = form.value;
     axios
     .post(url, { data: order })
-    .then((response) => {
+        .then((response) => {
+        cartStore.getCart();
         alert(response.data.message);
         formRef.value.resetForm();
     })

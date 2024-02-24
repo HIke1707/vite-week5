@@ -13,6 +13,8 @@ const cart = computed({
   }
 })
 
+const isLoading = ref(false);
+
 // 取購物車
 const getCart = () => {
     cartStore.getCart();
@@ -35,6 +37,21 @@ const emptyCart = () => {
     });
 }
 
+const removeCartItem = (id) => {
+  isLoading.value = true;
+  const url = `${apiUrl}/api/${apiPath}/cart/${id}`;
+  axios
+    .delete(url)
+    .then((response) => {
+      alert(response.data.message);
+      getCart();
+    })
+    .catch((err) => {
+      alert(err.response.data.message);
+    });
+  isLoading.value = false;
+};
+
 // vue mount
 onMounted(() => {
     getCart();
@@ -42,6 +59,7 @@ onMounted(() => {
 
 </script>
 <template>
+    <VueLoading :active="isLoading" :is-full-page="true"></VueLoading>
     <!-- 購物車列表 -->
     <div class="text-end">
         <button class="btn btn-outline-danger" type="button" @click="emptyCart">清空購物車</button>
@@ -59,7 +77,7 @@ onMounted(() => {
             <template v-if="cart.carts">
             <tr v-for="item in cart.carts" :key="item.id">
                 <td>
-                <button type="button" class="btn btn-outline-danger btn-sm">
+                <button type="button" class="btn btn-outline-danger btn-sm" @click="removeCartItem(item.id)">
                     <i class="fas fa-spinner fa-pulse"></i>
                     x
                 </button>
