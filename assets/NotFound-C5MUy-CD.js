@@ -1,1 +1,0 @@
-import{p as o,c as t,o as n,F as s,a as e}from"./index-BASYhDAa.js";const a=e("p",null,"頁面不存在",-1),c=e("p",null,"3秒後跳轉畫面",-1),p={__name:"NotFound",setup(r){return o(()=>{setTimeout(()=>{window.location="#/user"},3e3)}),(_,l)=>(n(),t(s,null,[a,c],64))}};export{p as default};
