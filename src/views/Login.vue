@@ -16,7 +16,7 @@ const login = async () => {
                 console.log(res);
                 const { token, expired } = res.data;
                 document.cookie = `hextoken=${token}; expires=${new Date(expired)}; path=/`;
-                window.location = "admin"
+                window.location = "#/admin"
     })
     .catch((err) => { console.log(err) });
 }

@@ -12,34 +12,34 @@ const router = createRouter({
     {
       path: '/user',
       name: 'user',
-      component: () => import('../views/UserLayout.vue'),
+      component: () => import('../views/frontend/UserLayout.vue'),
       children: [
         {
           path: '',
           name: 'userhome',
-          component: () => import('../views/UserHome.vue'),
+          component: () => import('../views/frontend/UserHome.vue'),
         },
         {
           path: 'products',
           name: 'products',
-          component: () => import('../views/FrontProductsList.vue')
+          component: () => import('../views/frontend/FrontProductsList.vue')
         },
         {
           path: 'cart',
           name: 'cart',
-          component: () => import('../views/FrontCart.vue')
+          component: () => import('../views/frontend/FrontCart.vue')
         }
       ]
     },
     {
       path: '/admin',
       name: 'admin',
-      component: () => import('../views/UserLayout.vue'),
+      component: () => import('../views/frontend/UserLayout.vue'),
       children: [
         {
           path: '',
           name: 'adminproducts',
-          component: () => import('../views/AdminProductList.vue'),
+          component: () => import('../views/backend/AdminProductList.vue'),
         }
       ]
     },
