@@ -85,7 +85,7 @@ onMounted(() => {
         }
         else {
             alert("請登入");
-            window.location = "login";
+            window.location = "#/login";
         }
     });
 })

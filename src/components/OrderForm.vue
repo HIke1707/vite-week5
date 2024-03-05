@@ -38,7 +38,8 @@ const createOrder = () => {
         .then((response) => {
         cartStore.getCart();
         alert(response.data.message);
-        formRef.value.resetForm();
+        form.value.message = "";
+        formRef.value.resetForm();        
     })
     .catch((err) => {
         alert(err.response.data.message);

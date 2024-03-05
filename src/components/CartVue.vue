@@ -1,10 +1,12 @@
 <script setup>
 import { onMounted, inject, ref, provide, computed } from 'vue';
 import { useCartStore } from '../stores/cartStore'
+import debounce from "lodash/debounce"
 const axios = inject('axios')
 const apiUrl = import.meta.env.VITE_API_URL;
 const apiPath = import.meta.env.VITE_API_PATH;
 const cartStore = useCartStore() 
+
 // const cart = ref(cartStore.cart);
 
 const cart = computed({
@@ -37,6 +39,7 @@ const emptyCart = () => {
     });
 }
 
+// 清除購物車內產品
 const removeCartItem = (id) => {
   isLoading.value = true;
   const url = `${apiUrl}/api/${apiPath}/cart/${id}`;
@@ -51,6 +54,28 @@ const removeCartItem = (id) => {
     });
   isLoading.value = false;
 };
+
+// 更新購物車
+const updateCartItem = debounce((cartId, productId, qty = 1) => {
+    isLoading.value = true;
+    const url = `${apiUrl}/api/${apiPath}/cart/${cartId}`;
+    const data = {
+        product_id: productId,
+        qty:qty
+    }
+  
+    axios
+    .put(url, { data:data })
+    .then((response) => {
+    alert(response.data.message);
+    getCart();
+    })
+    .catch((err) => {
+    alert(err.response.data.message);
+    });
+
+    isLoading.value = false;
+},500)
 
 // vue mount
 onMounted(() => {
@@ -91,8 +116,7 @@ onMounted(() => {
                 <td>
                 <div class="input-group input-group-sm">
                     <div class="input-group mb-3">
-                    <input 
-                            min="1" type="number" class="form-control" v-model="item.qty">
+                    <input min="1" type="number" class="form-control" v-model="item.qty" v-on:change="updateCartItem(item.id, item.product_id, item.qty)">
                     <span class="input-group-text" id="basic-addon2">{{ item.product.unit }}</span>
                     </div>
                 </div>
